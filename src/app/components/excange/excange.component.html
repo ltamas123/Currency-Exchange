@@ -1,0 +1,114 @@
+<section class="container">
+  <div class="mt-4"><h1>I want to Convert:</h1></div>
+  <div *ngIf="currencies">
+    <form class="row">
+      <mat-form-field
+        class="col-12 col-md-12 col-lg-3 col-xl-3"
+        appearance="fill"
+      >
+        <mat-label>Amount</mat-label>
+        <input
+          matInput
+          [(ngModel)]="value"
+          name="amount"
+          placeholder="amount"
+          type="number"
+        />
+      </mat-form-field>
+
+      <mat-form-field
+        class="col-12 col-md-12 col-lg-3 col-xl-3"
+        appearance="fill"
+      >
+        <mat-label>From</mat-label>
+        <input
+          type="text"
+          placeholder="Pick one"
+          aria-label="Currency"
+          matInput
+          [formControl]="fromControl"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete
+          autoActiveFirstOption
+          #auto="matAutocomplete"
+          (optionSelected)="getValue($event.option.value, 'from')"
+          [displayWith]="getOptionText"
+        >
+          <mat-option
+            *ngFor="let option of fromFilteredOptions | async"
+            [value]="option"
+            class="d-flex justify-content-start"
+          >
+            {{ option.name }}
+            {{ option.simbol | uppercase }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <button mat-raised-button class="change-button mb-3">
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Change"
+          (click)="changeFromTo()"
+          >compare_arrows</mat-icon
+        >
+      </button>
+
+      <mat-form-field
+        class="col-12 col-md-12 col-lg-3 col-xl-3"
+        appearance="fill"
+      >
+        <mat-label>To</mat-label>
+        <input
+          type="text"
+          placeholder="Pick one"
+          aria-label="Currency"
+          matInput
+          [formControl]="toControl"
+          [matAutocomplete]="toAutoComplete"
+        />
+        <mat-autocomplete
+          autoActiveFirstOption
+          #toAutoComplete="matAutocomplete"
+          (optionSelected)="getValue($event.option.value, 'to')"
+          [displayWith]="getOptionText"
+        >
+          <mat-option
+            *ngFor="let option of toFilteredOptions | async"
+            [value]="option"
+          >
+            {{ option.name }}
+            {{ option.simbol | uppercase }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <button
+        mat-raised-button
+        class="conver-button"
+        color="primary"
+        (click)="exchnage()"
+        [disabled]="!selectedFromCurrency || !selectedToCurrency || !value"
+      >
+        Convert
+      </button>
+    </form>
+  </div>
+</section>
+
+<div class="row" *ngIf="exchangeRate">
+  <div class="col-12">
+    <section class="conversion-result-area justify-content-center mt-5 row">
+      <p class="resoult mt-5">
+        {{ value }} {{ fromControl.value.name }}
+        {{ fromControl.value.simbol | uppercase }}
+      </p>
+
+      <p class="resoult mt-5 ml-3 mr-3">=</p>
+      <p class="resoult-green mt-5">
+        {{ value * exchangeRate }} {{ toControl.value.name }}
+        {{ toControl.value.simbol | uppercase }}
+      </p>
+    </section>
+  </div>
+</div>

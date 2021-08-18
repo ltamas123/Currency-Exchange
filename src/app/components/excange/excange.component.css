@@ -1,0 +1,20 @@
+.conver-button {
+  font-size: 12px;
+  min-width: 45px;
+  max-height: 50px;
+}
+
+.change-button {
+  font-size: 24px;
+  padding: 0;
+  min-width: 45px;
+  max-height: 50px;
+}
+.resoult {
+  font-size: 3.9vw;
+}
+
+.resoult-green {
+  color: rgb(39, 168, 39);
+  font-size: 3.9vw;
+}
